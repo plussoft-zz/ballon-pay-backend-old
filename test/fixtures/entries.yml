@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  due_date: 2020-01-08 18:28:50
+  account: one
+  number: 1
+  description: MyString
+  amount: 9.99
+  kind: 1
+
+two:
+  due_date: 2020-01-08 18:28:50
+  account: two
+  number: 1
+  description: MyString
+  amount: 9.99
+  kind: 1

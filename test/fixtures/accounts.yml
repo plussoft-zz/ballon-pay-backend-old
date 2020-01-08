@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  store: one
+  account_type: one
+  number: 1
+
+two:
+  store: two
+  account_type: two
+  number: 1

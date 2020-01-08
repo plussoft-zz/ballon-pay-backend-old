@@ -10,11 +10,43 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_08_114701) do
+ActiveRecord::Schema.define(version: 2020_01_08_212850) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
+
+  create_table "account_types", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "user_id", null: false
+    t.string "name", null: false
+    t.integer "kind", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_account_types_on_user_id"
+  end
+
+  create_table "accounts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "store_id", null: false
+    t.uuid "account_type_id", null: false
+    t.integer "number", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_type_id"], name: "index_accounts_on_account_type_id"
+    t.index ["store_id", "number"], name: "index_accounts_on_store_id_and_number", unique: true
+    t.index ["store_id"], name: "index_accounts_on_store_id"
+  end
+
+  create_table "entries", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "account_id", null: false
+    t.datetime "due_date", null: false
+    t.integer "number"
+    t.string "description"
+    t.decimal "amount", precision: 15, scale: 3, null: false
+    t.integer "kind", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_entries_on_account_id"
+  end
 
   create_table "people", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "user_id", null: false
@@ -24,6 +56,16 @@ ActiveRecord::Schema.define(version: 2020_01_08_114701) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id", "document_number"], name: "index_people_on_user_id_and_document_number", unique: true
     t.index ["user_id"], name: "index_people_on_user_id"
+  end
+
+  create_table "stores", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "user_id", null: false
+    t.integer "number", null: false
+    t.string "name", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id", "number"], name: "index_stores_on_user_id_and_number", unique: true
+    t.index ["user_id"], name: "index_stores_on_user_id"
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -40,5 +82,10 @@ ActiveRecord::Schema.define(version: 2020_01_08_114701) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "account_types", "users"
+  add_foreign_key "accounts", "account_types"
+  add_foreign_key "accounts", "stores"
+  add_foreign_key "entries", "accounts"
   add_foreign_key "people", "users"
+  add_foreign_key "stores", "users"
 end
