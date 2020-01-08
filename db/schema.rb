@@ -18,9 +18,11 @@ ActiveRecord::Schema.define(version: 2020_01_08_114701) do
 
   create_table "people", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "user_id", null: false
-    t.string "full_name"
+    t.string "full_name", null: false
+    t.string "document_number", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id", "document_number"], name: "index_people_on_user_id_and_document_number", unique: true
     t.index ["user_id"], name: "index_people_on_user_id"
   end
 

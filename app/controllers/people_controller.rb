@@ -4,7 +4,7 @@ class PeopleController < ApplicationController
 
   # GET /people
   def index
-    @people = current_user.people
+    @people =  Person.filter(params.slice(:full_name, :document_number).merge(user_id: current_user.id))
 
     render json: @people
   end
@@ -47,6 +47,6 @@ class PeopleController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def person_params
-      params.require(:person).permit(:full_name)
+      params.require(:person).permit(:full_name, :document_number)
     end
 end
