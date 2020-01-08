@@ -1,9 +1,10 @@
 class PeopleController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_person, only: [:show, :update, :destroy]
 
   # GET /people
   def index
-    @people = Person.all
+    @people = current_user.people
 
     render json: @people
   end
@@ -15,7 +16,7 @@ class PeopleController < ApplicationController
 
   # POST /people
   def create
-    @person = Person.new(person_params)
+    @person = current_user.people.new(person_params)
 
     if @person.save
       render json: @person, status: :created, location: @person
@@ -41,11 +42,11 @@ class PeopleController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_person
-      @person = Person.find(params[:id])
+      @person = current_user.people.find(params[:id])
     end
 
     # Only allow a trusted parameter "white list" through.
     def person_params
-      params.require(:person).permit(:user_id, :full_name)
+      params.require(:person).permit(:full_name)
     end
 end
