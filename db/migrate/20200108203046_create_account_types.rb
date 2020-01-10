@@ -4,6 +4,7 @@ class CreateAccountTypes < ActiveRecord::Migration[6.0]
       t.references :user, type: :uuid, null: false, foreign_key: true
       t.string :name, null: false
       t.integer :kind, null: false
+      t.boolean :default, null: false, default: false
 
       t.timestamps
     end

@@ -4,6 +4,8 @@ class Store < ApplicationRecord
   belongs_to :user
   has_many :accounts
 
+  scope :default, -> { where(default: true)}  
+
   private 
 
   def define_number 

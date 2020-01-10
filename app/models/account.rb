@@ -4,6 +4,7 @@ class Account < ApplicationRecord
   belongs_to :store
   belongs_to :account_type
   has_many :entries
+  has_many :people, class_name: "AccountPerson"
 
   private 
 
