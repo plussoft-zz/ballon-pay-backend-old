@@ -1,9 +1,9 @@
 Rails.application.routes.draw do
-  resources :brand_cards
   post 'credit_proposal', to: 'credit_proposal#create'
   resources :accounts do
     resources :entries
   end
+  resources :brand_cards
   resources :account_types
   resources :stores
   resources :people

@@ -23,6 +23,7 @@ class User < ApplicationRecord
 
   def define_account_type
     self.account_types.new(kind: :credit, name: 'Credit Account', default: true)
+    self.account_types.new(kind: :current, name: 'Current Account', default: true)
   end
 
   def define_brand_card

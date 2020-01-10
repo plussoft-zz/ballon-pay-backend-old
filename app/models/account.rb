@@ -14,5 +14,7 @@ class Account < ApplicationRecord
     end
 
     self.number = self.store.accounts.any? ? self.store.accounts.maximum('number') + 1 : 1
+  rescue
+    self.number = 1
   end
 end
