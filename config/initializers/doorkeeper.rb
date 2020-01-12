@@ -10,6 +10,15 @@ Doorkeeper.configure do
     current_user || warden.authenticate!(scope: :user)
   end
 
+  resource_owner_from_credentials do |routes|
+    request.params[:user] = {email: request.params[:username], password: request.params[:password]}
+    request.env["warden"].logout(:user)
+    request.env["devise.allow_params_authentication"] = true
+    # Set `store: false` to stop Warden from storing user in session
+    # https://github.com/doorkeeper-gem/doorkeeper/issues/475#issuecomment-305517549
+    request.env["warden"].authenticate!(scope: :user, store: false)
+  end
+
   # If you didn't skip applications controller from Doorkeeper routes in your application routes.rb
   # file then you need to declare this block in order to restrict access to the web interface for
   # adding oauth authorized applications. In other case it will return 403 Forbidden response
@@ -278,6 +287,7 @@ Doorkeeper.configure do
   #   http://tools.ietf.org/html/rfc6819#section-4.4.3
   #
   # grant_flows %w[authorization_code client_credentials]
+  grant_flows %w[password client_credentials]
 
   # Allows to customize OAuth grant flows that +each+ application support.
   # You can configure a custom block (or use a class respond to `#call`) that must
