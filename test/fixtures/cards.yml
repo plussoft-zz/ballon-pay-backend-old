@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  account_person: one
+  brand_card: one
+  printed_name: MyString
+  due_date: 2020-01-12
+  verification_code: 1
+
+two:
+  account_person: two
+  brand_card: two
+  printed_name: MyString
+  due_date: 2020-01-12
+  verification_code: 1
