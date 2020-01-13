@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     scope module: :v1, constraints: ApiConstraints.new(version: 1, default: true) do
       get 'home', to: 'home#index'
       post 'proposal', to: 'proposal#create'
+      get 'cards/:document_number/by_document_number', to: 'cards#index'
       resources :applications
     end
 

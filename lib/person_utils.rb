@@ -25,4 +25,9 @@ module PersonUtils
     
     abr_nome.strip!
   end
+
+  def remove_mask(text)
+    return '' unless text.present?
+    text.gsub(/[^0-9A-Za-z]/, '')
+  end
 end

@@ -5,8 +5,10 @@ class Card < ApplicationRecord
 
   before_save :define
 
-  belongs_to :account_person
   belongs_to :brand_card
+  belongs_to :account_person
+  has_one :account, through: :account_person
+  has_one :person, through: :account_person
 
   private
 
